@@ -10,7 +10,9 @@ describe('Telegram messages', () => {
     ]]);
   });
 
-  it('does not include extra buttons in the welcome message', () => {
-    expect(buildWelcomeMessage().text).toContain('/start');
+  it('explains the test command without adding a welcome-message button', () => {
+    const message = buildWelcomeMessage();
+    expect(message.text).toContain('/test');
+    expect(message.reply_markup).toBeUndefined();
   });
 });
