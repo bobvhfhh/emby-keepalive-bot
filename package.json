@@ -1,0 +1,14 @@
+{
+  "name": "emby-keepalive-bot",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "latest",
+    "typescript": "^7.0.2",
+    "vitest": "latest",
+    "wrangler": "latest"
+  }
+}

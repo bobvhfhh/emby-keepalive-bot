@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "emby-keepalive-bot",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-07",
+  "observability": { "enabled": true, "head_sampling_rate": 1 },
+  "triggers": { "crons": ["0 16 * * *"] },
+  "d1_databases": [{ "binding": "DB", "database_name": "emby-keepalive", "database_id": "REPLACE_WITH_D1_DATABASE_ID", "migrations_dir": "migrations" }]
+}
