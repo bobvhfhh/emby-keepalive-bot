@@ -1,5 +1,9 @@
 # 墨云阁 · 折纸保号提醒机器人
 
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fbobvhfhh%2Femby-keepalive-bot)
+
+点击上面的按钮即可将本项目导入并部署到你自己的 Cloudflare 账号。Cloudflare 会自动创建 Worker 和 D1 数据库；部署配置页面会要求你填写 Telegram Bot Token 和 Webhook Secret。
+
 这是一个独立的 Telegram 提醒机器人。它不会访问 Emby，也不会读取观影记录；你看完后手动点击按钮，机器人重新开始 25 天倒计时。
 
 ## 运行规则
@@ -19,55 +23,16 @@
 
 不要把 Bot Token 发到聊天、提交到 Git 或写入代码；部署时用 Secret 配置。
 
-## 推荐部署方式：GitHub Actions 自动部署
+## 一键部署后的第一次设置
 
-这个项目可以完全不依赖你的本地电脑运行。把整个 emby-keepalive-bot 目录上传到 GitHub 后，GitHub Actions 会自动完成测试、D1 迁移、Worker 部署、Secret 更新和 Telegram Webhook 设置。
-
-### 1. 创建 Cloudflare API Token
-
-在 Cloudflare 创建一个 API Token，权限至少包含：Workers Scripts 编辑、D1 编辑。记下 Cloudflare Account ID。Cloudflare API Token 和 Telegram Bot Token 都只放在 GitHub Secrets。
-
-### 2. 创建 D1 数据库
-
-可以在 Cloudflare Dashboard 创建名为 emby-keepalive 的 D1 数据库，或者只在第一次使用 Cloudflare CLI 时创建。把数据库的 ID 填到 wrangler.jsonc 的 database_id；数据库 ID 不是密码，可以提交到 GitHub。
-
-### 3. 上传到 GitHub
-
-建议把 emby-keepalive-bot 目录里的内容直接作为 GitHub 仓库根目录，结构是：
+点击按钮后，Cloudflare 会把代码导入你的 GitHub 账号，并自动配置 Worker 和 D1。部署配置页中填写两个 Secret：
 
 ~~~text
-你的仓库/
-├── .github/workflows/deploy.yml
-├── src/
-├── migrations/
-├── wrangler.jsonc
-└── package.json
+TELEGRAM_BOT_TOKEN=BotFather 创建的机器人 Token
+WEBHOOK_SECRET=一段随机长字符串
 ~~~
 
-### 4. 配置 GitHub Secrets 和 Variables
-
-仓库进入 Settings → Secrets and variables → Actions，添加以下 Secrets：
-
-~~~text
-CLOUDFLARE_API_TOKEN
-CLOUDFLARE_ACCOUNT_ID
-TELEGRAM_BOT_TOKEN
-WEBHOOK_SECRET
-~~~
-
-再添加一个 Repository Variable：
-
-~~~text
-WORKER_URL = https://emby-keepalive-bot.<你的账号>.workers.dev
-~~~
-
-第一次部署前，如果还不知道 Worker URL，可以先把 workflow 里的最后一步 Configure Telegram webhook 暂时注释掉，部署完成后从 Cloudflare 控制台复制 Worker URL，再添加 WORKER_URL 并重新运行 workflow。
-
-### 5. 推送代码
-
-推送到 main 分支后，进入 GitHub 的 Actions 页面查看 Deploy Emby Keepalive Bot。它会按顺序执行：npm 测试、TypeScript 检查、配置检查、D1 迁移、Secret 更新、Worker 部署和 Telegram Webhook 设置。
-
-部署完成后，在 Telegram 打开新机器人并发送 /start。
+部署完成后，在 Telegram 打开新机器人并发送 /start。Cloudflare 部署按钮支持从 Wrangler 配置读取所需资源，并在部署时自动创建 D1；.dev.vars.example 和 package.json 中的 bindings 描述用于让配置页面识别所需 Secret。
 
 ## 本地或 VPS 部署步骤（备用）
 
@@ -79,7 +44,7 @@ npx wrangler login
 npx wrangler d1 create emby-keepalive
 ~~~
 
-命令会返回 database_id。打开 wrangler.toml，把 REPLACE_WITH_D1_DATABASE_ID 替换为实际 ID。
+命令会返回 database_id。备用命令行部署时，把它填入 wrangler.jsonc 的 database_id。
 
 创建数据库表：
 

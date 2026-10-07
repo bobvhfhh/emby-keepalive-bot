@@ -3,7 +3,19 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "db:migrations:apply": "wrangler d1 migrations apply DB --remote",
+    "deploy": "npm run db:migrations:apply && wrangler deploy"
+  },
+  "cloudflare": {
+    "bindings": {
+      "TELEGRAM_BOT_TOKEN": {
+        "description": "Your Telegram BotFather token. Keep it private."
+      },
+      "WEBHOOK_SECRET": {
+        "description": "A random secret used to authenticate Telegram webhook requests."
+      }
+    }
   },
   "devDependencies": {
     "@cloudflare/workers-types": "latest",
