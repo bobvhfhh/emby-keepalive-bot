@@ -42,6 +42,14 @@ openssl rand -hex 32
 
 部署完成后，在 Telegram 打开新机器人并发送 /start。Cloudflare 部署按钮支持从 Wrangler 配置读取所需资源，并在部署时自动创建 D1；.dev.vars.example 和 package.json 中的 bindings 描述用于让配置页面识别所需 Secret。
 
+部署成功后，在浏览器打开 Worker 地址加上 /setup：
+
+~~~text
+https://你的Worker地址/setup
+~~~
+
+页面显示 Telegram webhook configured 后，再回 Telegram 给机器人发送 /start。/setup 会在 Cloudflare 内部读取两个 Secret 并自动向 Telegram 注册 Webhook，不会把 Token 显示在网页中。
+
 ## 本地或 VPS 部署步骤（备用）
 
 在本目录执行：
