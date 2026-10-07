@@ -29,8 +29,16 @@
 
 ~~~text
 TELEGRAM_BOT_TOKEN=BotFather 创建的机器人 Token
-WEBHOOK_SECRET=一段随机长字符串
+WEBHOOK_SECRET=64 位十六进制高强度随机字符串
 ~~~
+
+生成 WEBHOOK_SECRET 的推荐方式：
+
+~~~bash
+openssl rand -hex 32
+~~~
+
+这会生成 32 字节、256 位随机值，复制完整结果填入 WEBHOOK_SECRET。不要使用生日、手机号、用户名或简单英文单词。
 
 部署完成后，在 Telegram 打开新机器人并发送 /start。Cloudflare 部署按钮支持从 Wrangler 配置读取所需资源，并在部署时自动创建 D1；.dev.vars.example 和 package.json 中的 bindings 描述用于让配置页面识别所需 Secret。
 

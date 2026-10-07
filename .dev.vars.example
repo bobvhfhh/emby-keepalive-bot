@@ -1,2 +1,3 @@
-TELEGRAM_BOT_TOKEN=填入你的Telegram机器人Token
-WEBHOOK_SECRET=填入一段随机长字符串
+TELEGRAM_BOT_TOKEN=
+# Generate with: openssl rand -hex 32
+WEBHOOK_SECRET=

@@ -13,7 +13,7 @@
         "description": "Your Telegram BotFather token. Keep it private."
       },
       "WEBHOOK_SECRET": {
-        "description": "A random secret used to authenticate Telegram webhook requests."
+        "description": "Required. Use a cryptographically random 64-character hexadecimal value, for example the output of: openssl rand -hex 32"
       }
     }
   },
