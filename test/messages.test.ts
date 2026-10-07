@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildReminderMessage, buildWelcomeMessage } from '../src/messages';
+import { buildConfirmationPromptMessage, buildReminderMessage, buildWelcomeMessage } from '../src/messages';
 
 describe('Telegram messages', () => {
   it('renders the reminder with exactly one confirmation button', () => {
@@ -14,5 +14,13 @@ describe('Telegram messages', () => {
     const message = buildWelcomeMessage();
     expect(message.text).toContain('/test');
     expect(message.reply_markup).toBeUndefined();
+  });
+
+  it('replaces the first action with one final confirmation button', () => {
+    const message = buildConfirmationPromptMessage();
+    expect(message.text).toContain('确认你已经完成观看吗');
+    expect(message.reply_markup!.inline_keyboard).toEqual([[
+      { text: '✅ 确认，已观看', callback_data: 'confirm_keepalive_final' }
+    ]]);
   });
 });
